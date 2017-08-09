@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="execution" name="executionListener" isExecutable="true">
+    <extensionElements>
+      <activiti:executionListener event="start" class="activiti.lx.listener.MyExecutionListener"></activiti:executionListener>
+      <activiti:executionListener event="end" class="activiti.lx.listener.MyExecutionListener"></activiti:executionListener>
+    </extensionElements>
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <receiveTask id="receivetask1" name="Receive Task">
+      <extensionElements>
+        <activiti:executionListener event="start" class="activiti.lx.listener.MyExecutionListener"></activiti:executionListener>
+        <activiti:executionListener event="end" class="activiti.lx.listener.MyExecutionListener"></activiti:executionListener>
+      </extensionElements>
+    </receiveTask>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="receivetask1"></sequenceFlow>
+    <userTask id="usertask1" name="User Task" activiti:assignee="user">
+      <extensionElements>
+        <activiti:executionListener event="start" class="activiti.lx.listener.MyExecutionListener"></activiti:executionListener>
+        <activiti:executionListener event="end" class="activiti.lx.listener.MyExecutionListener"></activiti:executionListener>
+        <activiti:taskListener event="create" class="activiti.lx.listener.MyTasksListener"></activiti:taskListener>
+        <activiti:taskListener event="assignment" class="activiti.lx.listener.MyTasksListener"></activiti:taskListener>
+        <activiti:taskListener event="complete" class="activiti.lx.listener.MyTasksListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow2" sourceRef="receivetask1" targetRef="usertask1">
+      <extensionElements>
+        <activiti:executionListener event="take" class="activiti.lx.listener.MyExecutionListener"></activiti:executionListener>
+      </extensionElements>
+    </sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow3" sourceRef="usertask1" targetRef="endevent1"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_execution">
+    <bpmndi:BPMNPlane bpmnElement="execution" id="BPMNPlane_execution">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="100.0" y="120.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="receivetask1" id="BPMNShape_receivetask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="200.0" y="110.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="350.0" y="110.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="500.0" y="120.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="135.0" y="137.0"></omgdi:waypoint>
+        <omgdi:waypoint x="200.0" y="137.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="305.0" y="137.0"></omgdi:waypoint>
+        <omgdi:waypoint x="350.0" y="137.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="455.0" y="137.0"></omgdi:waypoint>
+        <omgdi:waypoint x="500.0" y="137.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
